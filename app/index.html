@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>GDM</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+    <!--<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="css/fileInput.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/spinner.css">
+    <script type="text/javascript" src="js/lib/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="js/lib/jquery.mobile-1.4.4.min.js"></script>
+    <!--<script type="text/javascript" src="js/lib/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="css/jquery-ui.min.css" />-->
+    <script type="text/javascript" src="js/lib/highcharts.js"></script>
+    <script type="text/javascript" src="js/lib/highcharts-regression.js"></script>
+    <script type="text/javascript" src="js/lib/moment.js"></script>
+    <script type="text/javascript" src="js/lib/regression.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/viewControllers/process.js"></script>
+    <script type="text/javascript" src="js/viewControllers/pageView.js"></script>
+    <script type="text/javascript" src="js/viewControllers/showData.js"></script>
+    <script type="text/javascript" src="js/viewControllers/start.js"></script>
+    <script type="text/javascript" src="js/modelControllers/initDB.js"></script>
+    <script type="text/javascript" src="js/modelControllers/fileWorker.js"></script>
+    <script type="text/javascript" src="js/modelControllers/fileManager.js"></script>
+    <script type="text/javascript" src="js/tools.js"></script>
+</head>
+
+<body>
+<div data-url="page1" data-role="page" id="page1" class="page" data-overlay-theme="a" data-theme="a" data-position="fixed" >
+    <div data-role="header" data-position="fixed">
+        <h1>GDM - Load Data</h1>
+        <a href="#mainPanel" data-role="button" data-icon="grid">Menu</a>
+    </div>
+    <div data-role="main" class="ui-content">
+        <div class="ui-grid-b">
+            <div class="ui-block-a">
+                <div data-role="fieldcontain">
+                    Start by loading a file:
+                    <div>
+                        <span class="ui-btn ui-icon-plus ui-btn-icon-left ui-corner-all fileinput-button">
+                            <span><label for="loadFile">Location:</label></span>
+                            <input class="btn btn-default" id="loadFile" type="file" data-role="none" data-theme="b"/>
+                        </span>
+                    </div>
+                </div>
+                Procesing line <span id="processingFile"></span><br/>
+
+            </div>
+            <div class="ui-block-b">
+                <div data-role="fieldcontain">
+                    Clear database
+                    <fieldset data-role="controlgroup" data-type="horizontal">
+                        <button id="clearDB" data-theme="b" >Clear</button>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="ui-block-c">
+                <div data-role="fieldcontain">
+                    Get Row Count:
+                    <fieldset data-role="controlgroup" data-type="horizontal">
+                        <button id="getRowCount" data-theme="b">Query</button>
+                        <div class="center" id="rowCount"></div>
+                    </fieldset>
+
+                </div>
+            </div>
+        </div>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <div data-role="fieldcontain">
+                    Simple query with limit
+                    <fieldset data-role="controlgroup" data-type="horizontal">
+                        <input type="number" data-inline="true" id="limit"/>
+                        <button id="limitOnClick" data-theme="b">Query</button>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div data-role="fieldcontain">
+                    Custom query: SELECT * FROM GAS
+                    <fieldset data-role="controlgroup" data-type="horizontal">
+                        <input class="input-group" type="text" id="fullQuery"/>
+                        <button id="fullQueryButton" data-theme="b">Query</button>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <table data-role="table" data-mode="reflow" class="ui-responsive" id="tableList">
+        </table>
+    </div>
+</div>
+<div data-url="page2" data-role="page" id="page2" class="page" data-overlay-theme="a" data-theme="a" data-position="fixed" >
+    <div data-role="header" data-position="fixed">
+        <h1>GDM - Trim Data</h1>
+        <a href="#mainPanel" data-role='button' data-icon="grid">Menu</a>
+    </div>
+    <div role="main" class="ui-content">
+        <b>Trim Data:</b><br/>
+        <div class="ui-grid-a mediumForm">
+            <div class="ui-block-b">
+                <div data-role="fieldcontain">
+                    <label for="exportFrom" class="select">From:</label>
+                    <input type="date" data-role="date" value="" id="exportFrom">
+                </div>
+            </div>
+            <div class="ui-block-c">
+                <div data-role="fieldcontain">
+                    <label for="exportTo" class="select">To:</label>
+                    <input type="date" data-role="date" value="" id="exportTo">
+                </div>
+            </div>
+        </div>
+        <div id="dialog" class="mediumForm">
+            <span class="ui-btn ui-icon-plus ui-btn-icon-left ui-corner-all fileinput-button">
+                <span><label for="fileDownload">Choose Location:</label></span>
+                <input id="fileDownload" name="fileDownload" type="file" nwsaveas="gas-trim.csv" data-role="none"/>
+            </span>
+            <div class="clear"><span id="downloadTo" class="smallHeight"></span></div>
+            <button id="exportFileTo" data-theme="b">Save</button>
+        </div>
+    </div>
+</div>
+<div data-url="page3" data-role="page" id="page3" class="page" data-overlay-theme="a" data-theme="a" data-position="fixed" >
+    <div data-role="header" data-position="fixed">
+        <h1>GDM - Show Data</h1>
+        <a href="#mainPanel" data-role='button' data-icon="grid">Menu</a>
+    </div>
+    <div role="main" class="ui-content">
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a center">Group Chambers<br/><button id="selectChamber" data-inline="true" data-icon="gear" data-theme="b">Load Chambers</button></div>
+                    <div class="ui-block-b center"><label for="selectChoiceChamber" class="select">Chamber</label><select name="selectChoiceChamber" id="selectChoiceChamber"></select></div>
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a center">Group Types<br/><button id="selectType" data-inline="true" data-icon="gear" data-theme="b">Load Types</button></div>
+                    <div class="ui-block-b center"><label for="selectChoiceType" class="select">Type</label><select name="selectChoiceType" id="selectChoiceType"></select></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui-grid-b">
+            <div class="ui-block-a">
+                <div data-role="fieldcontain">
+                    <label for="preProcessFrom" class="select">From:</label>
+                    <input type="date" data-role="date" id="preProcessFrom">
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div data-role="fieldcontain">
+                    <label for="preProcessTo" class="select">To:</label>
+                    <input type="date" data-role="date" id="preProcessTo">
+                </div>
+            </div>
+            <div class="ui-block-c center">
+                <div data-role="fieldcontain">
+                    <button id="preProcessChartButton" data-inline="true" data-icon="gear" data-theme="b">Show Data</button>
+                </div>
+            </div>
+        </div>
+        <div id="preProcessChart" class="mainChart" style="min-width: 310px; height: 640px; margin: 0 auto"></div>
+    </div>
+</div>
+<div data-url="page4" data-role="page" id="page4" class="page" data-overlay-theme="a" data-theme="a" data-position="fixed" >
+    <div data-role="header" data-position="fixed">
+        <h1>GDM - Processing</h1>
+        <a href="#mainPanel" data-role='button' data-icon="grid">Menu</a>
+    </div>
+    <div role="main" class="ui-content">
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <div class="ui-grid-b">
+                    <div class="ui-block-a paddBlock"><select class="field" id="typeOfData"></select></div>
+                    <div class="ui-block-b paddBlock"><button class="field" id="collectTimestamps" data-theme="b">Collect Timestamps</button>
+                        <input class="minutes-input" type="number" id="collectFrom" min="0" max="59" step="1" value="1"/>
+                        <input class="minutes-input" type="number" id="collectTo" min="0" max="59" step="1" value="6"/>
+                    </div>
+                    <div class="ui-block-c paddBlock">
+                        <span class="ui-btn ui-icon-plus ui-btn-icon-left ui-corner-all fileinput-button">
+                            <span><label for="exportTimestampsInput">Choose Location</label></span>
+                            <input type="file" nwsaveas="timecut.csv" placeholder="Choose Location" id="exportTimestampsInput" data-role="none"/>
+                        </span>
+                        <br/>
+                        <button data-mini="true" id="exportTimestamps">Export</button>
+                    </div>
+                    <span id="exportTimestampsDownload"></span>
+                </div>
+
+            </div>
+            <div class="ui-block-b">
+                <div class="ui-grid-b">
+                    <div class="ui-block-a paddBlock"><select class="field" id="chamberSlopes"></select></div>
+                    <div class="ui-block-b paddBlock"><button class="field" id="getSlopes" data-theme="b">Get Slopes</button></div>
+                    <div class="ui-block-c paddBlock">
+                        <span class="ui-btn ui-icon-plus ui-btn-icon-left ui-corner-all fileinput-button">
+                            <span><label class="forFile" for="exportSlopesInput">Choose Location</label></span>
+                            <input class="forFile" type="file" nwsaveas="slopes_perchamber.csv" placeholder="Choose Location" id="exportSlopesInput" data-role="none"/>
+                        </span>
+                        <br/>
+                        <button data-mini="true" id="exportSlopes">Export</button>
+                    </div>
+                    <span id="exportSlopesDownload"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <div class="tableContent">
+                    <form>
+                        <input id="parsedTimestamps-input" data-type="search">
+                    </form>
+                    <table data-filter="true" id="parsedTimestamps" data-role="table" data-mode="reflow" class="ui-responsive" data-input="#parsedTimestamps-input"></table>
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div class="tableContent">
+                    <div data-role="popup" id="processPopup1">
+                        <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+                        <div id="processChart1" class="smallChart ui-content"></div>
+                    </div>
+                    <form>
+                        <input id="processSlopes-input" data-type="search">
+                    </form>
+                    <table data-filter="true" id="processSlopes" data-role="table" data-mode="reflow" class="ui-responsive" data-input="#processSlopes-input"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END OF PAGES-->
+<div data-role="popup" id="popupDialog" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="width: 100%;height: 100%;margin: 0 auto;">
+    <div role="main" class="ui-content">
+        </div>
+    </div>
+</div>
+<div data-role='panel' data-theme="b" class='panel-holder' data-position="left" data-display="overlay" data-url="mainPanel" id="mainPanel">
+    <div class="ui-header ui-bar ui-bar-b">
+        <span class="center">Gas Data Manager</span>
+    </div>
+    <div>
+        <ul class="ui-listview" data-role="listview" id="panelList">
+            <li class="ui-first-child ui-li-divider"></li>
+            <li class=""><a href="#page1" data-link="first" class="ui-btn ui-btn-icon-right ui-icon-carat-r">Start</a></li>
+            <li><a href="#page2" data-link="first" data-role="button" class="ui-btn ui-btn-icon-right ui-icon-carat-r">Export Data</a></li>
+            <li><a href="#page3" data-link="first" data-role="button" class="ui-btn ui-btn-icon-right ui-icon-carat-r">Show Data</a></li>
+            <li><a href="#page4" data-link="first" data-role="button" class="ui-btn ui-btn-icon-right ui-icon-carat-r">Process</a></li>
+            <li><a href="#" data-rel="close" data-role="button" class="ui-btn ui-btn-icon-right ui-icon-delete">Close</a></li>
+        </ul>
+    </div>
+    <div class="ui-footer ui-bar-b">
+        <h4 class="ui-title"><a id="openDevTools" data-role="button" class="ui-btn">Show Dev Tools</a></h4>
+    </div>
+</div>
+</body>
+</html>

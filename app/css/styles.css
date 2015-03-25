@@ -1,0 +1,45 @@
+body{
+    background-color: #F9F9D1 !important;
+}
+.clear{
+    clear: both;
+}
+.center{
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+}
+.tableContent{
+    height: 580px;
+    margin: 0 auto;
+    overflow: auto;
+    padding:10px;"
+}
+.ui-field-contain, .field{
+    padding:5px;
+}
+.mainChart{
+    min-width: 310px;
+    height: 640px;
+    margin: 0 auto;
+}
+.smallChart{
+    min-width: 500px;
+    height: 300px;
+    margin: 0 auto;
+}
+.ui-panel .ui-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.mediumForm{
+    width: 500px;
+}
+.smallHeight{
+    height: 20px;
+}
+.paddBlock{
+    padding:5px;
+}

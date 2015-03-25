@@ -1,0 +1,7 @@
+node_modules
+*.app
+locales
+.pak
+.exe
+.dll
+.dat

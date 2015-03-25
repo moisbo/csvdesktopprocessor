@@ -1,0 +1,33 @@
+{
+  "name": "gdm",
+  "version": "0.0.1",
+  "description": "Gas Data Manager",
+  "main": "app/index.html",
+  "private": true,
+  "nodejs": true,
+  "window": {
+    "toolbar": false,
+    "resizable": true,
+    "width": 1200,
+    "height": 860,
+    "min_width": 600,
+    "min_height": 400,
+    "position": "center",
+    "icon":"app/img/icon.png"
+  },
+  "author": "Moises Sacal",
+  "license": "BSD",
+  "scripts": {
+    "start": "nodewebkit"
+  },
+  "repository": "",
+  "devDependencies": {
+    "grunt": "~0.4.5"
+  },
+  "dependencies": {
+    "lazy": "^1.0.11",
+    "moment": "^2.8.3",
+    "sqlite3": "~3.0.2",
+    "nodewebkit":"~0.10.5"
+  }
+}
