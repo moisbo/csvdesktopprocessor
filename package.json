@@ -1,6 +1,6 @@
 {
   "name": "gdm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Gas Data Manager",
   "main": "app/index.html",
   "private": true,
@@ -9,9 +9,9 @@
     "toolbar": false,
     "resizable": true,
     "width": 1200,
-    "height": 860,
+    "height": 700,
     "min_width": 600,
-    "min_height": 400,
+    "min_height": 480,
     "position": "center",
     "icon":"app/img/icon.png"
   },
@@ -28,6 +28,6 @@
     "lazy": "^1.0.11",
     "moment": "^2.8.3",
     "sqlite3": "~3.0.2",
-    "nodewebkit":"~0.10.5"
+    "nodewebkit": "^0.11.6"
   }
 }

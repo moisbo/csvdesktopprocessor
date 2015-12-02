@@ -1,3 +1,4 @@
+.idea
 node_modules
 *.app
 locales
@@ -5,3 +6,9 @@ locales
 .exe
 .dll
 .dat
+gdm.app
+nwjs.app
+nwjc
+test-data
+nw.pak
+icudtl.dat

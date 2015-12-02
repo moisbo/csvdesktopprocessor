@@ -61,5 +61,25 @@ function addEvents() {
         $('.loadingMessage').remove();
         backup('exportSlopesDownload', $('#exportSlopesInput').val(), 'process3');
     });
+    $('#trimDataSave').on('click', function(event){
+        trimDataSave();
+    });
+    $('#trimData').on('click', function(event){
+        $.mobile.loading('show');
+        trimData($('#typeOfData').val(),
+            localStorage.getItem('trim.hours').split(','),
+            localStorage.getItem('trim.duration'));
+    });
 }
 
+var settings = {
+    trim: {
+        hours: ['01', '04', '07', '10', '13', '16', '19', '22'],
+        size: 8,
+        duration: '07'
+    }
+};
+
+$(document).ready(function(){
+    setTrimDataButton();
+});

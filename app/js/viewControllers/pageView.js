@@ -80,5 +80,42 @@ var showMessage = function(msg){
 }
 
 function stylers(){
-$('.minutes-input').parent().css('width','30%');
+    $('.minutes-input').parent().css('width','30%');
+}
+
+function setTrimDataButton(){
+    var duration = localStorage.getItem('trim.duration');
+    var hours = localStorage.getItem('trim.hours');
+
+    if(!duration){
+        duration = localStorage.getItem('trim.duration');
+        localStorage.setItem('trim.duration', duration);
+    }else{
+        duration = settings.trim.duration;
+    }
+    var hourSelection;
+    if(!hours){
+        hourSelection = settings.trim.hours;
+    }else{
+        hours = localStorage.getItem('trim.hours');
+        hourSelection = hours.split(',');
+    }
+    //console.log(duration);
+    //console.log(hourSelection);
+
+    $('#trimDuration').val(duration);
+    for(var i = 0; i < 8; i++) {
+        $('#trimDataArray'+i).val(hourSelection[i]);
+    }
+}
+
+function trimDataSave(){
+    //localstorage
+    var hours = [];
+    for(var i = 0; i < 8; i++) {
+        hours.push($('#trimDataArray'+i).val());
+    }
+    localStorage.setItem('trim.hours', hours);
+    var duration = $('#trimDuration').val();
+    localStorage.setItem('trim.duration', duration);
 }

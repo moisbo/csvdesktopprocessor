@@ -4,7 +4,34 @@ function collectTimestamps(type, tFrom, tTo) {
             db.transaction(function (tx) {
                 var query = 'CREATE TABLE IF NOT EXISTS process1 AS ';
                 query += 'SELECT rowid, chamber, date, value FROM gas where type="'+type+'" AND ( strftime("%M:%S", date) BETWEEN "'+tFrom+':00" and "'+tTo+':59") order by chamber';
-                console.log(query)
+                //console.log(query);
+                tx.executeSql(query, []
+                    , function (tx, results) {
+                        showTimestamps();
+                    }
+                )
+            });
+        });
+    });
+}
+function trimData(type, trim, duration) {
+    db.transaction(function (tx) {
+        tx.executeSql('DROP TABLE IF EXISTS process1', [], function () {
+            db.transaction(function (tx) {
+                var queryPart = '';
+                for(var i = 0; i < trim.length; i++){
+                    if(trim[i]){
+                        if(i === 0){
+                            queryPart += ' AND ';
+                        }else{
+                            queryPart += ' OR ';
+                        }
+                        queryPart += '( strftime("%H:%M", date) BETWEEN "' + trim[i] + ':00" and "' + trim[i] + ':' + duration + '")';
+                    }
+                }
+                var query = 'CREATE TABLE IF NOT EXISTS process1 AS ';
+                query += 'SELECT rowid, chamber, date, value FROM gas where type="'+type+'" ' + queryPart + ' order by chamber';
+                //console.log(query);
                 tx.executeSql(query, []
                     , function (tx, results) {
                         showTimestamps();
@@ -118,7 +145,7 @@ function calculateSlope(id, date, juldates, values, type, chamber) {
         //var date = moment.utc(juldates[i], "YYYY-M-D HH:mm:ss").valueOf();
         a.push(new Array(i, val));
     }
-    console.log(a);
+    //console.log(a);
     var regr = regression('linear', a);
     result.slope = regr.equation[0].toFixed(2);
     if(isNaN(result.slope) || !isFinite(result.slope)){

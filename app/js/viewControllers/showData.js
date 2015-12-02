@@ -37,7 +37,7 @@ function clearChambers(){
 
 function insertChambers(){
     db.transaction(function (tx) {
-        console.log(CHAMBERS.length)
+        console.log(CHAMBERS.length);
         for (var i = 0; i < CHAMBERS.length; i++) {
             tx.executeSql('INSERT INTO chambers (chamber) VALUES ("' + CHAMBERS[i] + '")', [],
                 null
@@ -100,14 +100,14 @@ function clearTypes(){
 }
 function insertTypes(){
     db.transaction(function (tx) {
-        console.log(TYPES.length)
+        //console.log(TYPES.length)
         for (var i = 0; i < TYPES.length; i++) {
             tx.executeSql('INSERT INTO types (type) VALUES ("' + TYPES[i] + '")', [],
                 null
                 , function (tx, error) {
                     showMessage(error.message);
                 });
-            console.log(TYPES[i]);
+            //console.log(TYPES[i]);
         }
         $.mobile.loading('hide');
     });
@@ -203,7 +203,8 @@ function generateChart(type, typeValue, datachartContent, chamber){
         yAxis: {
             title: {
                 text: 'value'
-            }
+            }/*,
+            min: 0.074*/
         },
         tooltip: {
             headerFormat: '<b>{series.name}</b><br>',
